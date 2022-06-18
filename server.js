@@ -3,9 +3,13 @@ import mongoose from 'mongoose';
 import morgan from 'morgan';
 import cors from 'cors';
 import dotenv from 'dotenv';
+
+// Routers
 import { authRouter } from './routes/authRoutes.js';
 import { departmentRouter } from './routes/departmentRoutes.js';
 import { materialRouter } from './routes/materialRoutes.js';
+import { topicRouter } from './routes/topicRoutes.js';
+import { deptDegreeRouter } from './routes/deptDegreeRoutes.js';
 
 dotenv.config();
 
@@ -32,6 +36,8 @@ app.use(cors());
 app.use('/api', authRouter);
 app.use('/api', departmentRouter);
 app.use('/api', materialRouter);
+app.use('/api', deptDegreeRouter);
+app.use('/api', topicRouter);
 
 // port
 const port = process.env.PORT || 3500;

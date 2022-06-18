@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
-import slugify from 'slugify';
+const { ObjectId } = mongoose.Schema;
 
-const materialTypeSchema = new mongoose.Schema(
+const deptDegreeSchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -14,16 +14,17 @@ const materialTypeSchema = new mongoose.Schema(
     slug: {
       type: String,
       unique: true,
+      lowercase: true,
       index: true,
     },
-  },
 
+    deptDegree: {
+      type: ObjectId,
+      ref: 'Department',
+      required: true,
+    },
+  },
   { timestamps: true }
 );
 
-materialTypeSchema.pre('save', function (next) {
-  this.slug = slugify(this.name, { lower: true });
-  next();
-});
-
-export const MaterialType = mongoose.model('MaterialType', materialTypeSchema);
+export const Degree = mongoose.model('Degree', deptDegreeSchema);

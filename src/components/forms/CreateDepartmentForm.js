@@ -14,7 +14,7 @@ const CreateDepartmentForm = ({ handleSubmit, name, setName }) => {
           required
         />
         <br />
-        <button className='btn'>Create Department</button>
+        <button className='btn'>Save</button>
       </div>
     </form>
   );

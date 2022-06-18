@@ -5,11 +5,11 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import CreateDepartmentForm from '../../../components/forms/CreateDepartmentForm';
 import {
-  getDepartment,
-  updateDepartment,
-} from '../../../httpRequestFun/departmentHttp';
+  getMaterial,
+  updateMaterial,
+} from '../../../httpRequestFun/materialHttp';
 
-const UpdateDepartmentPage = () => {
+const UpdateMaterialPage = () => {
   const [name, setName] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -21,20 +21,20 @@ const UpdateDepartmentPage = () => {
   const slug = params.slug;
 
   useEffect(() => {
-    getDepartment(slug).then(dept => setName(dept.data.name));
+    getMaterial(slug).then(dept => setName(dept.data.name));
   }, [slug]);
 
   const handleSubmit = e => {
     e.preventDefault();
     // console.log(name);
     setLoading(true);
-    updateDepartment(slug, { name }, user.token)
+    updateMaterial(slug, { name }, user.token)
       .then(res => {
         // console.log(res)
         setLoading(false);
         setName('');
         toast.success(`"${res.data.name}" is updated`);
-        navigate('/admin/department');
+        navigate('/admin/material-type');
       })
       .catch(err => {
         console.log(err);
@@ -50,7 +50,7 @@ const UpdateDepartmentPage = () => {
           {loading ? (
             <h4 className='text-danger'>Loading..</h4>
           ) : (
-            <h4>Update category</h4>
+            <h4>Update Material Type</h4>
           )}
 
           <CreateDepartmentForm
@@ -58,12 +58,10 @@ const UpdateDepartmentPage = () => {
             name={name}
             setName={setName}
           />
-
-          <hr />
         </div>
       </div>
     </div>
   );
 };
 
-export default UpdateDepartmentPage;
+export default UpdateMaterialPage;

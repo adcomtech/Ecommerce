@@ -34,7 +34,51 @@ const AdminNav = () => {
               navBar.isActive ? 'active-style' : 'nav-link'
             }
           >
-            departmnt
+            department
+          </NavLink>
+        </li>
+
+        <li>
+          <NavLink
+            to='/admin/degree'
+            className={navBar =>
+              navBar.isActive ? 'active-style' : 'nav-link'
+            }
+          >
+            Degrees
+          </NavLink>
+        </li>
+
+        <li>
+          <NavLink
+            to='/admin/material-type'
+            className={navBar =>
+              navBar.isActive ? 'active-style' : 'nav-link'
+            }
+          >
+            Materials
+          </NavLink>
+        </li>
+
+        <li>
+          <NavLink
+            to='/admin/create-topic'
+            className={navBar =>
+              navBar.isActive ? 'active-style' : 'nav-link'
+            }
+          >
+            Add New Topic
+          </NavLink>
+        </li>
+
+        <li>
+          <NavLink
+            to='/admin/topics'
+            className={navBar =>
+              navBar.isActive ? 'active-style' : 'nav-link'
+            }
+          >
+            Topic Lists
           </NavLink>
         </li>
       </ul>

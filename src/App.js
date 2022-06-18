@@ -20,9 +20,15 @@ import UserSettingsPage from './pages/users/UserSettingsPage';
 import UserPassUpdatedPage from './pages/users/UserPassUpdatedPage';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminUsersPage from './pages/admin/AdminUsersPage';
-import AdminProductsPage from './pages/admin/AdminProductsPage';
 import CreateDepartmentPage from './pages/admin/department/CreateDepartmentPage';
 import UpdateDepartmentPage from './pages/admin/department/UpdateDepartmentPage';
+import CreateMaterialPage from './pages/admin/materialType/CreateMaterialPage';
+import UpdateMaterialPage from './pages/admin/materialType/UpdateMaterialPage';
+import CreateTopic from './pages/admin/topics/CreateTopicPage';
+import CreateDeptDegree from './pages/admin/deptDegree/CreateDeptDegree';
+import UpdateDeptDegree from './pages/admin/deptDegree/UpdateDeptDegree';
+import AllTopics from './pages/admin/topics/AllTopics';
+import UpdateTopicPage from './pages/admin/topics/UpdateTopicPage';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -83,11 +89,20 @@ const App = () => {
           <Route path='/admin/dashboard' element={<AdminDashboard />} />
           <Route path='/admin/users' element={<AdminUsersPage />} />
           <Route path='/admin/department' element={<CreateDepartmentPage />} />
+          <Route path='/admin/material-type' element={<CreateMaterialPage />} />
+          <Route path='/admin/create-topic' element={<CreateTopic />} />
+          <Route path='/admin/degree' element={<CreateDeptDegree />} />
+          <Route path='/admin/topics' element={<AllTopics />} />
           <Route
             path='/admin/department/:slug'
             element={<UpdateDepartmentPage />}
           />
-          <Route path='/admin/departments' element={<AdminProductsPage />} />
+          <Route path='/admin/degree/:slug' element={<UpdateDeptDegree />} />
+          <Route
+            path='/admin/material-type/:slug'
+            element={<UpdateMaterialPage />}
+          />
+          <Route path='/admin/topic/:slug' element={<UpdateTopicPage />} />
         </Route>
       </Routes>
     </>

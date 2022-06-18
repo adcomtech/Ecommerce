@@ -4,45 +4,43 @@ import { useSelector } from 'react-redux';
 
 import { Link } from 'react-router-dom';
 import {
-  createDepartment,
-  deleteDepartment,
-  getDepartments,
-} from '../../../httpRequestFun/departmentHttp';
+  createMaterial,
+  deleteMaterial,
+  getMaterials,
+} from '../../../httpRequestFun/materialHttp';
 import CreateDepartmentForm from '../../../components/forms/CreateDepartmentForm';
+import SearchForm from '../../../components/forms/SearchForm';
 
-const CreateDepartmentPage = () => {
+const CreateMaterialPage = () => {
   const { user } = useSelector(state => ({ ...state }));
 
   const [name, setName] = useState('');
   const [loading, setLoading] = useState(false);
-  const [departments, setDepartments] = useState([]);
+  const [materials, setMaterials] = useState([]);
   // A state for Search and filtering implementation
   const [searchQuery, setSearchQuery] = useState('');
 
   // Loading the Created Departments
   useEffect(() => {
-    loadDepartments();
+    loadMaterials();
   }, []);
 
-  const loadDepartments = async () => {
-    const dept = await getDepartments();
-    setDepartments(dept.data);
-  };
-  // getDepartments().then(dept => setDepartments(dept.data));
+  const loadMaterials = () =>
+    getMaterials().then(dept => setMaterials(dept.data));
 
   // Handle the form submit to create department
   const handleSubmit = e => {
     e.preventDefault();
     // console.log(name);
     setLoading(true);
-    createDepartment({ name }, user.token)
+    createMaterial({ name }, user.token)
       .then(res => {
         // console.log(res)
         setLoading(false);
         setName('');
         toast.success(`"${res.data.name}" is created`);
-        // Loading Department after been created so as to refresh the page
-        loadDepartments();
+        // Loading Material after been created so as to refresh the page
+        loadMaterials();
       })
       .catch(err => {
         console.log(err);
@@ -56,13 +54,13 @@ const CreateDepartmentPage = () => {
     // To Bring default confirm box
     if (window.confirm('Delete?')) {
       setLoading(true);
-      deleteDepartment(slug, user.token)
+      deleteMaterial(slug, user.token)
         .then(res => {
           setLoading(false);
           toast.error(`${res.data.name} deleted`);
 
-          // Loading Department after been created so as to refresh the page
-          loadDepartments();
+          // Loading Material after been created so as to refresh the page
+          loadMaterials();
         })
         .catch(err => {
           if (err.response.status === 400) {
@@ -73,23 +71,17 @@ const CreateDepartmentPage = () => {
     }
   };
 
-  // Handling Search and Filtering Functionality
-  const handleSearchChange = e => {
-    e.preventDefault();
-    setSearchQuery(e.target.value.toLowerCase());
-  };
-
   // step 4
-  const searched = searchQuery => dept =>
-    dept.name.toLowerCase().includes(searchQuery);
+  const searched = searchQuery => material =>
+    material.name.toLowerCase().includes(searchQuery);
 
   return (
-    <div className='container-fluid'>
+    <div className='container'>
       <div className='col'>
         {loading ? (
           <h4 className='text-danger'>Loading..</h4>
         ) : (
-          <h4>Create Department</h4>
+          <h4>Create Material Types</h4>
         )}
 
         <CreateDepartmentForm
@@ -99,23 +91,17 @@ const CreateDepartmentPage = () => {
         />
 
         {/* step 2 */}
-        <input
-          type='search'
-          placeholder='Filter Departments'
-          value={searchQuery}
-          onChange={handleSearchChange}
-          className='form-control'
-        />
+        <SearchForm searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
 
         <hr />
         {/* Displaying All Department with Filter Functionality */}
-        {departments.filter(searched(searchQuery)).map(dept => (
-          <div className='btn-control' key={dept._id}>
-            {dept.name}
-            <span onClick={() => handleRemove(dept.slug)} className='btn'>
+        {materials.filter(searched(searchQuery)).map(material => (
+          <div className='btn-control' key={material._id}>
+            {material.name}
+            <span onClick={() => handleRemove(material.slug)} className='btn'>
               Delete
             </span>
-            <Link to={`/admin/department/${dept.slug}`}>
+            <Link to={`/admin/material-type/${material.slug}`}>
               <span className='btn'>Edit</span>
             </Link>
           </div>
@@ -125,4 +111,4 @@ const CreateDepartmentPage = () => {
   );
 };
 
-export default CreateDepartmentPage;
+export default CreateMaterialPage;

@@ -69,3 +69,48 @@ export const updateTopic = async (req, res) => {
     });
   }
 };
+
+// Without Pagination
+export const listByFields = async (req, res) => {
+  try {
+    // createdAt/updatedAt, desc/asc, 3
+    const { sort, order, limit } = req.body;
+    const topics = await Topic.find({})
+      .populate('department')
+      .populate('category')
+      .sort([[sort, order]])
+      .limit(limit)
+      .exec();
+
+    res.json(topics);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+// WITH PAGINATION
+export const list = async (req, res) => {
+  try {
+    // createdAt/updatedAt, desc/asc, 3
+    const { sort, order, page } = req.body;
+    const currentPage = page || 1;
+    const perPage = 10; // 3
+
+    const topics = await Topic.find({})
+      .skip((currentPage - 1) * perPage)
+      .populate('category')
+      .populate('department')
+      .sort([[sort, order]])
+      .limit(perPage)
+      .exec();
+
+    res.json(topics);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const topicsCount = async (req, res) => {
+  let total = await Topic.find({}).estimatedDocumentCount().exec();
+  res.json(total);
+};
